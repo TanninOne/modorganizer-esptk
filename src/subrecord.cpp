@@ -4,10 +4,6 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
-#include <boost/assign.hpp>
-
-
-using namespace boost::assign;
 
 
 ESP::SubRecord::SubRecord()
@@ -19,11 +15,11 @@ ESP::SubRecord::SubRecord()
 
 bool ESP::SubRecord::readFrom(std::istream &stream, uint32_t sizeOverride)
 {
-  static std::unordered_map<std::string, EType> s_TypeMap = map_list_of("HEDR", TYPE_HEDR)
-                                                                       ("CNAM", TYPE_CNAM)
-                                                                       ("MAST", TYPE_MAST)
-                                                                       ("ONAM", TYPE_ONAM)
-                                                                       ("SNAM", TYPE_SNAM);
+  static std::unordered_map<std::string, EType> s_TypeMap {{"HEDR", TYPE_HEDR},
+    {"CNAM", TYPE_CNAM},
+    {"MAST", TYPE_MAST},
+    {"ONAM", TYPE_ONAM},
+    {"SNAM", TYPE_SNAM}};
 
   char typeString[5];
   if (!stream.read(typeString, 4)) {
