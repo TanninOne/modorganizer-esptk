@@ -15,7 +15,9 @@ class Record
 {
 public:
   enum EFlag {
-    FLAG_MASTER = 0x00000001,
+    FLAG_MASTER     = 0x00000001,
+    FLAG_LOCALIZED  = 0x00000080,
+    FLAG_LIGHT      = 0x00000200,
     FLAG_COMPRESSED = 0x00040000
   };
 
