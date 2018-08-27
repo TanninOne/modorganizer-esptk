@@ -22,7 +22,6 @@ class membuf : public std::basic_streambuf<char>
 {
 public:
   membuf(const char *start, size_t size) {
-    // baad me! this is intended for an istream only so we're not modifying
     char *startMod = const_cast<char*>(start);
     setg(startMod, startMod, startMod + size);
   }
@@ -108,6 +107,11 @@ ESP::Record ESP::File::readRecord()
 bool ESP::File::isMaster() const
 {
   return m_MainRecord.flagSet(Record::FLAG_MASTER);
+}
+
+bool ESP::File::isLight() const
+{
+  return m_MainRecord.flagSet(Record::FLAG_LIGHT);
 }
 
 bool ESP::File::isDummy() const
