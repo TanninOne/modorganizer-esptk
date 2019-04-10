@@ -19,11 +19,19 @@ public:
   File(const std::string &fileName);
   File(const std::wstring &fileName);
 
+  /**
+   * write the modified file back. This can currently only update the header
+   **/
+  void write(const std::wstring &fileName);
+
   Record readRecord();
 
   bool isMaster() const;
   bool isLight() const;
   bool isDummy() const;
+
+  void setLight(bool enabled);
+
   std::string author() const { return m_Author; }
   std::string description() const { return m_Description; }
   std::set<std::string> masters() const { return m_Masters; }

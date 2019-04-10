@@ -24,11 +24,17 @@ public:
 public:
   Record();
 
+  size_t size() const;
+
   bool readFrom(std::istream &stream);
+  void writeTo(std::ostream &stream);
 
   bool flagSet(EFlag flag) const;
+  void setFlag(EFlag flag, bool enable);
 
   const std::vector<uint8_t> &data() const { return m_Data; }
+
+private:
 
 private:
   struct Header {
@@ -38,6 +44,8 @@ private:
     uint32_t id;
     uint32_t revision;
   } m_Header;
+
+  char m_VersionInfo[4];
 
   std::vector<uint8_t> m_Data;
 

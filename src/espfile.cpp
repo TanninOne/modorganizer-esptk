@@ -66,6 +66,30 @@ void ESP::File::init()
   }
 }
 
+void ESP::File::write(const std::wstring &fileName) {
+  std::ofstream outFile(fileName, std::ofstream::out | std::ofstream::binary);
+
+  m_MainRecord.writeTo(outFile);
+
+  m_File.seekg(m_MainRecord.size());
+
+  static const int BUFFER_SIZE = 16 * 1024;
+  std::unique_ptr<char> buffer(new char[BUFFER_SIZE]);
+  std::streampos start = m_File.tellg();
+  bool eof = false;
+  while (!eof && !m_File.fail()) {
+    m_File.read(buffer.get(), BUFFER_SIZE);
+    size_t numBytes = BUFFER_SIZE;
+    if (m_File.eof()) {
+      eof = true;
+      m_File.clear();
+      m_File.seekg(0, SEEK_END);
+      numBytes = (m_File.tellg() - start) % BUFFER_SIZE;
+    }
+    outFile.write(buffer.get(), numBytes);
+  }
+}
+
 void ESP::File::onHEDR(const SubRecord &rec)
 {
   if (rec.data().size() != sizeof(m_Header)) {
@@ -117,4 +141,9 @@ bool ESP::File::isLight() const
 bool ESP::File::isDummy() const
 {
   return m_Header.numRecords == 0;
+}
+
+void ESP::File::setLight(bool enabled)
+{
+  m_MainRecord.setFlag(Record::FLAG_LIGHT, enabled);
 }
