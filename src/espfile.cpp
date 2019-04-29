@@ -67,7 +67,9 @@ void ESP::File::init()
 }
 
 void ESP::File::write(const std::wstring &fileName) {
-  std::ofstream outFile(fileName, std::ofstream::out | std::ofstream::binary);
+  // wtf? If I use an ofstream here the function crashes (0xc0000005) on destruction
+  // of outFile. It even happens if we write absolutely nothing into the file.
+  std::fstream outFile(fileName, std::ofstream::out | std::ofstream::binary);
 
   m_MainRecord.writeTo(outFile);
 
@@ -88,6 +90,7 @@ void ESP::File::write(const std::wstring &fileName) {
     }
     outFile.write(buffer.get(), numBytes);
   }
+  outFile.close();
 }
 
 void ESP::File::onHEDR(const SubRecord &rec)
