@@ -34,6 +34,8 @@ public:
 
   const std::vector<uint8_t> &data() const { return m_Data; }
 
+  uint32_t revision() const { return *(reinterpret_cast<const uint32_t*>(m_VersionInfo)); }
+
 private:
 
 private:

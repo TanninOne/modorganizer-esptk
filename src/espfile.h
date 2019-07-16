@@ -32,6 +32,8 @@ public:
 
   void setLight(bool enabled);
 
+  uint32_t revision() const { return m_MainRecord.revision(); }
+
   std::string author() const { return m_Author; }
   std::string description() const { return m_Description; }
   std::set<std::string> masters() const { return m_Masters; }
