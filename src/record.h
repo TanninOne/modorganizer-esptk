@@ -2,6 +2,7 @@
 #define RECORD_H
 
 #include <cstdint>
+#include <cstring>
 #include <vector>
 #include <istream>
 

@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <cstring>
 #include <fstream>
 #include <set>
 #include "record.h"
@@ -17,12 +18,11 @@ class File
 public:
 
   File(const std::string &fileName);
-  File(const std::wstring &fileName);
 
   /**
    * write the modified file back. This can currently only update the header
    **/
-  void write(const std::wstring &fileName);
+  void write(const std::string &fileName);
 
   Record readRecord();
 

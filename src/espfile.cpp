@@ -3,15 +3,10 @@
 #include "espexceptions.h"
 #include <sstream>
 #include <bitset>
+#include <memory>
 
 
 ESP::File::File(const std::string &fileName)
-{
-  m_File.open(fileName, std::fstream::in | std::fstream::binary);
-  init();
-}
-
-ESP::File::File(const std::wstring &fileName)
 {
   m_File.open(fileName, std::fstream::in | std::fstream::binary);
   init();
@@ -66,7 +61,7 @@ void ESP::File::init()
   }
 }
 
-void ESP::File::write(const std::wstring &fileName) {
+void ESP::File::write(const std::string &fileName) {
   // wtf? If I use an ofstream here the function crashes (0xc0000005) on destruction
   // of outFile. It even happens if we write absolutely nothing into the file.
   std::fstream outFile(fileName, std::ofstream::out | std::ofstream::binary);
@@ -85,7 +80,7 @@ void ESP::File::write(const std::wstring &fileName) {
     if (m_File.eof()) {
       eof = true;
       m_File.clear();
-      m_File.seekg(0, SEEK_END);
+      m_File.seekg(0, std::fstream::end);
       numBytes = (m_File.tellg() - start) % BUFFER_SIZE;
     }
     outFile.write(buffer.get(), numBytes);
