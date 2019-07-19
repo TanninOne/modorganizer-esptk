@@ -3,8 +3,9 @@
 #include "espexceptions.h"
 #include <sstream>
 #include <bitset>
+#if !defined(_WIN32) || !defined(_WIN64)
 #include <memory>
-
+#endif
 
 ESP::File::File(const std::string &fileName)
 {
@@ -12,6 +13,13 @@ ESP::File::File(const std::string &fileName)
   init();
 }
 
+#if defined(_WIN32) || defined(_WIN64)
+ESP::File::File(const std::wstring &fileName)
+{
+  m_File.open(fileName, std::fstream::in | std::fstream::binary);
+  init();
+}
+#endif
 
 class membuf : public std::basic_streambuf<char>
 {
@@ -61,7 +69,11 @@ void ESP::File::init()
   }
 }
 
+#if defined(_WIN32) || defined(_WIN64)
+void ESP::File::write(const std::wstring &fileName) {
+#else
 void ESP::File::write(const std::string &fileName) {
+#endif
   // wtf? If I use an ofstream here the function crashes (0xc0000005) on destruction
   // of outFile. It even happens if we write absolutely nothing into the file.
   std::fstream outFile(fileName, std::ofstream::out | std::ofstream::binary);
@@ -80,7 +92,11 @@ void ESP::File::write(const std::string &fileName) {
     if (m_File.eof()) {
       eof = true;
       m_File.clear();
+#if defined(_WIN32) || defined(_WIN64)
+      m_File.seekg(0, SEEK_END);
+#else
       m_File.seekg(0, std::fstream::end);
+#endif
       numBytes = (m_File.tellg() - start) % BUFFER_SIZE;
     }
     outFile.write(buffer.get(), numBytes);
