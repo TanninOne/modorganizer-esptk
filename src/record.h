@@ -2,12 +2,12 @@
 #define RECORD_H
 
 #include <cstdint>
-#if !defined(_WIN32) || !defined(_WIN64)
-#include <cstring>
-#endif
 #include <vector>
 #include <istream>
 
+#if !defined(_WIN32)
+#include <cstring>
+#endif
 
 namespace ESP {
 

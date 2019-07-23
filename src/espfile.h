@@ -3,13 +3,13 @@
 
 
 #include <string>
-#if !defined(_WIN32) || !defined(_WIN64)
-#include <cstring>
-#endif
 #include <fstream>
 #include <set>
 #include "record.h"
 
+#if !defined(_WIN32)
+#include <cstring>
+#endif
 
 namespace ESP {
 
@@ -19,19 +19,15 @@ class File
 {
 public:
 
-  File(const std::string &fileName);
-#if defined(_WIN32) || defined(_WIN64)
-  File(const std::wstring &fileName);
-#endif
-
   /**
    * write the modified file back. This can currently only update the header
    **/
-#if defined(_WIN32) || defined(_WIN64)
-  void write(const std::wstring &fileName);
-#else
-  void write(const std::string &fileName);
+   File(const std::string &fileName);
+#if defined(_WIN32)
+  File(const std::wstring &fileName);
+  void write(const std::wstring &fileName)
 #endif
+  void write(const std::string &fileName);
 
   Record readRecord();
 
