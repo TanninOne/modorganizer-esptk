@@ -5,6 +5,9 @@
 #include <vector>
 #include <istream>
 
+#if !defined(_WIN32)
+#include <cstring>
+#endif
 
 namespace ESP {
 

@@ -3,6 +3,9 @@
 
 
 #include <cstdint>
+#if !defined(_WIN32)
+#include <cstring>
+#endif
 #include <istream>
 #include <vector>
 
