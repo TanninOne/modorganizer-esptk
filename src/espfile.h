@@ -25,7 +25,7 @@ public:
    File(const std::string &fileName);
 #if defined(_WIN32)
   File(const std::wstring &fileName);
-  void write(const std::wstring &fileName)
+  void write(const std::wstring &fileName);
 #endif
   void write(const std::string &fileName);
 

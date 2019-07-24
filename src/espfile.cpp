@@ -11,7 +11,7 @@ ESP::File::File(const std::string &fileName)
 }
 
 #if defined(_WIN32)
-const int seek_targ = SEEK_END
+const int seek_targ = SEEK_END;
 ESP::File::File(const std::wstring &fileName)
 {
   m_File.open(fileName, std::fstream::in | std::fstream::binary);
